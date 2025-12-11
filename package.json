@@ -1,0 +1,36 @@
+{
+  "name": "arq",
+  "productName": "Arq",
+  "version": "0.0.1",
+  "description": "Local Music Library",
+  "author": "seranok1337",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "electron": "electron .",
+    "electron-dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron-build": "npm run build && electron-builder"
+  },
+  "main": "electron/main.js",
+  "homepage": "./",
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.1",
+    "concurrently": "^9.2.1",
+    "electron": "^39.2.3",
+    "electron-builder": "^26.0.12",
+    "vite": "^7.2.4",
+    "wait-on": "^9.0.3"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.17",
+    "electron-is-dev": "^3.0.1",
+    "lucide-react": "^0.554.0",
+    "motion": "^12.23.25",
+    "music-metadata": "^11.10.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "sonner": "^2.0.7",
+    "tailwindcss": "^4.1.17",
+    "zustand": "^5.0.8"
+  }
+}
