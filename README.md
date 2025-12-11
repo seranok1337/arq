@@ -48,3 +48,5 @@ MacOS:
 ```
 ~/Library/Application Support/Arq/config.json
 ```
+
+A configuration tab is going to be added soon, so this will not be necessary.
