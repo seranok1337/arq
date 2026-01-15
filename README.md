@@ -4,13 +4,11 @@ Arq is a folder-based fully local music library.
 
 ## Status:
 
-In development. Many must-have features from the original concept are missing, but they will be added in the future (very likely, since this project made me get 2.2hr on average per session according to /WakaTime).
+In development. Many must-have features from the original concept are missing, but they will be added in the future.
 
 ## WIP:
 
 - Song caching
-- Configuration tab
-- Realtime pitch editing and other sound adjustments
 - Track downloads via link from the most popular platforms (Youtube, Spotify, etc.)
 - Performance improvements
 - Folder-based playlists
