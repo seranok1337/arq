@@ -11,6 +11,9 @@ class AudioManager {
     });
     this.url = URL.createObjectURL(blob);
     this.audio = new Audio(this.url);
+
+    this.audio.preservesPitch = false;
+
     return this.audio;
   }
 

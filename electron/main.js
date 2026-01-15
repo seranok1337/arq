@@ -14,20 +14,21 @@ let mainWindow;
 const musicPath = app.getPath("music");
 const configPath = path.join(app.getPath("userData"), "/config.json");
 
-function checkIfFileExists(filePath) {
+function checkIfPathDestinationExists(path) {
   return fs
-    .access(filePath, fs.constants.F_OK)
+    .access(path, fs.constants.F_OK)
     .then(() => true)
     .catch(() => false);
 }
 
 async function createConfigFile() {
   try {
+    // config with default os music folder path
     const config = JSON.stringify({
       path: musicPath,
     });
 
-    if (!(await checkIfFileExists(configPath))) {
+    if (!(await checkIfPathDestinationExists(configPath))) {
       await fs.writeFile(configPath, config, "utf-8");
     }
   } catch (error) {
@@ -44,6 +45,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    frame: true,
     contextIsolation: false,
     webPreferences: {
       nodeIntegration: false,
@@ -73,6 +75,15 @@ ipcMain.handle("read-config", async () => {
     const parsedConfig = JSON.parse(configFile);
 
     return parsedConfig;
+  } catch (err) {
+    throw err;
+  }
+});
+
+ipcMain.handle("does-dir-exist", async (_, path) => {
+  try {
+    const res = await checkIfPathDestinationExists(path);
+    return res;
   } catch (err) {
     throw err;
   }
@@ -110,7 +121,18 @@ ipcMain.handle("parse-music-metadata", async (_, filePath) => {
 ipcMain.handle("read-directory", async (_, dirPath) => {
   try {
     const dir = await fs.readdir(dirPath);
+
     return dir;
+  } catch (err) {
+    throw err;
+  }
+});
+
+ipcMain.handle("write-config", async (_, content) => {
+  try {
+    const str = JSON.stringify(content);
+    await fs.writeFile(configPath, str, "utf-8");
+    return { success: true };
   } catch (err) {
     throw err;
   }

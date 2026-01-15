@@ -8,7 +8,7 @@ createRoot(document.getElementById("root")).render(
   <>
     <StrictMode>
       <div className="select-none">
-        <Toaster/>
+        <Toaster richColors />
         <App />
       </div>
     </StrictMode>

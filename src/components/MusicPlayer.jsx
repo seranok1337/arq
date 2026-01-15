@@ -1,20 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import { useCurrentSongStore } from "../stores/useCurrentSongStore";
-import { PauseIcon, Play } from "lucide-react";
+import { Hourglass, PauseIcon, Play, Volume2, VolumeOff } from "lucide-react";
 import getReadyPicture from "../lib/image";
-import { toast } from "sonner";
 import { audioManager } from "../lib/audioManager";
+import RangeComponent from "./ui/RangeComponent";
+import IconTooltip from "./ui/IconTooltip";
 
 export default function MusicPlayer() {
   const { title, artist, path, picture, isPlaying, setIsPlaying } =
     useCurrentSongStore();
   const [currentTime, setCurrentTime] = useState(0);
+  const [audioVolume, setAudioVolume] = useState(0.5);
+  const [audioPitch, setAudioPitch] = useState(1);
   const songRef = useRef(null);
+  const audio = songRef.current;
 
   const play = async () => {
-    if (!songRef.current && path) {
-      const audio = await audioManager.loadAudio(path);
-      songRef.current = audio;
+    if (!audio && path) {
+      const loadedAudio = await audioManager.loadAudio(path);
+      songRef.current = loadedAudio;
+      loadedAudio.volume = audioVolume;
+      loadedAudio.playbackRate = audioPitch;
       audioManager.play();
       setIsPlaying(true);
     }
@@ -29,22 +35,21 @@ export default function MusicPlayer() {
   };
 
   useEffect(() => {
-    if (songRef.current) {
-      songRef.current.pause();
+    if (audio) {
+      audio.pause();
       setIsPlaying(false);
       songRef.current = null;
     }
   }, [title]);
 
   useEffect(() => {
-    if (songRef.current) {
-      songRef.current.pause();
+    if (audio) {
+      audio.pause();
       setIsPlaying(false);
     }
   }, [path]);
 
   useEffect(() => {
-    const audio = songRef.current;
     if (!audio) return;
 
     const handleTimeUpdate = () => {
@@ -55,8 +60,7 @@ export default function MusicPlayer() {
         setCurrentTime(0);
         setIsPlaying(false);
       }
-
-      setCurrentTime(secondsToPercentage(time, audio.duration));
+      setCurrentTime(time);
     };
 
     audio.addEventListener("timeupdate", handleTimeUpdate);
@@ -66,13 +70,30 @@ export default function MusicPlayer() {
     };
   }, [songRef.current]);
 
-  const secondsToPercentage = (current, total) => {
-    return (current / total) * 100;
+  const handleVolumeChange = (value) => {
+    setAudioVolume(value);
+    if (audio) {
+      audio.volume = value;
+    }
+  };
+
+  const handleDurationChange = (value) => {
+    setCurrentTime(value);
+    if (audio) {
+      audio.currentTime = value;
+    }
+  };
+
+  const handlePitchChange = (value) => {
+    setAudioPitch(value);
+    if (audio) {
+      audio.playbackRate = value;
+    }
   };
 
   return (
     <div className="rounded-3xl bg-zinc-900/10 backdrop-blur-3xl border-t border-zinc-800/10 px-4 py-3">
-      <div className="flex items-center gap-4 max-w-6xl mx-auto">
+      <div className="flex items-center gap-4 max-w-6xl mx-auto ">
         <div className="w-14 h-14 bg-zinc-800 flex-shrink-0 rounded-2xl">
           <img
             className="w-full h-full object-cover rounded-2xl"
@@ -86,21 +107,49 @@ export default function MusicPlayer() {
           <p className="text-zinc-400 text-xs truncate">{artist}</p>
         </div>
 
-        <div className="transition-all duration-100 w-50">
-          <div className="h-1 bg-zinc-700 rounded-full">
-            <div
-              style={{
-                width: `${currentTime}%`,
-              }}
-              className="h-1 bg-white transition-all duration-100 rounded-full"
-            />
-          </div>
+        <div className="transition-all duration-100">
+          <RangeComponent
+            value={currentTime}
+            max={Math.round(songRef.current?.duration) || 1}
+            onChange={(value) => handleDurationChange(value)}
+          />
         </div>
 
         <div className="flex items-center gap-3 flex-shrink-0">
-          <button onClick={play} className="text-white active:scale-95 transition-all duration-50">
+          <button
+            onClick={play}
+            className="text-white active:scale-95 transition-all duration-50 rounded-xl"
+          >
             {isPlaying ? <PauseIcon /> : <Play />}
           </button>
+          <IconTooltip
+            onClick={() =>
+              audioVolume === 0
+                ? handleVolumeChange(0.5)
+                : handleVolumeChange(0)
+            }
+            icon={audioVolume === 0 ? VolumeOff : Volume2}
+          >
+            <RangeComponent
+              max={1}
+              value={audioVolume}
+              onChange={(value) => {
+                if (value <= 0.01) {
+                  handleVolumeChange(0);
+                } else {
+                  handleVolumeChange(value);
+                }
+              }}
+            />
+          </IconTooltip>
+          <IconTooltip icon={Hourglass}>
+            <RangeComponent
+              max={2}
+              step={0.1}
+              value={audioPitch}
+              onChange={(value) => handlePitchChange(value)}
+            />
+          </IconTooltip>
         </div>
       </div>
     </div>

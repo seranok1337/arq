@@ -16,6 +16,7 @@ const useCurrentSongStore = create((set) => ({
 
   setSong: (songData) =>
     set((state) => {
+      // revoke previous imag
       if (state.readyPicture?.startsWith("blob:")) {
         URL.revokeObjectURL(state.readyPicture);
       }

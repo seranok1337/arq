@@ -7,6 +7,10 @@ function useApp() {
   const { readDirectory } = useMusicData();
   const { setCurrentSong } = useMusicPlayer();
   const { path, setPath, setSongList, setConfig } = useAppStore();
+  const placeholderSong = {
+    title: "None",
+    artist: "None",
+  };
 
   const configInit = async () => {
     try {
@@ -21,11 +25,16 @@ function useApp() {
 
   const getSongList = async () => {
     try {
-      toast("Fetching music...");
-      const data = await readDirectory(path);
-      console.log(data);
-      setSongList(data);
-      setCurrentSong(data[0]);
+      const exists = await window.api.doesDirExist(path);
+
+      if (exists) {
+        const data = await readDirectory(path);
+        setSongList(data);
+        setCurrentSong(data[0] || placeholderSong);
+        toast("Loaded folder.");
+      } else {
+        toast("This directory does not exist!");
+      }
     } catch (error) {
       console.error(error);
       toast.error(error);
@@ -43,7 +52,29 @@ function useApp() {
     }
   };
 
-  return { readConfig, configInit, getSongList };
+  const writeConfig = async (content) => {
+    try {
+      const config = await window.api.writeConfig(content);
+
+      return config;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const doesDirExist = async (path) => {
+    try {
+      const res = await window.api.doesDirExist(path);
+
+      return res;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  return { readConfig, configInit, getSongList, writeConfig, doesDirExist };
 }
 
 export { useApp };

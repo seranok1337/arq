@@ -9,4 +9,6 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.invoke("parse-music-metadata", filePath),
   loadAudio: (path) => ipcRenderer.invoke("load-audio", path),
   readConfig: () => ipcRenderer.invoke("read-config"),
+  writeConfig: (content) => ipcRenderer.invoke("write-config", content),
+  doesDirExist: (path) => ipcRenderer.invoke("does-dir-exist", path),
 });
