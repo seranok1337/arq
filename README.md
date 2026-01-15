@@ -31,18 +31,3 @@ In development. Many must-have features from the original concept are missing, b
 ## Setup:
 
 Download ready build from Releases tab. Launch it.
-
-By default, your OS's music directory should be selected as the current directory. You are able to change it by editing the following config file via the following paths:
-
-Linux:
-```
-/home/USER/Arq/config.json
-```
-Windows:
-```
-%APPDATA%/Arq/config.json
-```
-MacOS:
-```
-~/Library/Application Support/Arq/config.json
-```
