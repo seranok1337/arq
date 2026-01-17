@@ -45,7 +45,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    frame: true,
+    frame: false,
     contextIsolation: false,
     webPreferences: {
       nodeIntegration: false,

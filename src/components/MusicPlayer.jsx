@@ -118,7 +118,7 @@ export default function MusicPlayer() {
         <div className="flex items-center gap-3 flex-shrink-0">
           <button
             onClick={play}
-            className="text-white active:scale-95 transition-all duration-50 rounded-xl"
+            className="text-white active:scale-95 transition-all duration-50"
           >
             {isPlaying ? <PauseIcon /> : <Play />}
           </button>
@@ -142,7 +142,7 @@ export default function MusicPlayer() {
               }}
             />
           </IconTooltip>
-          <IconTooltip icon={Hourglass}>
+          <IconTooltip onClick={() => handlePitchChange(1)} icon={Hourglass}>
             <RangeComponent
               max={2}
               step={0.1}
