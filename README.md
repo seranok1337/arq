@@ -1,4 +1,4 @@
-# Arq - Local Music Library
+# Arq - Local Music Library.
 
 Arq is a folder-based fully local music library.
 
