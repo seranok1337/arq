@@ -1,4 +1,3 @@
-import open from "open";
 import fs from "fs/promises";
 import { app, BrowserWindow } from "electron";
 import path from "path";
