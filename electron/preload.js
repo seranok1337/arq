@@ -11,4 +11,5 @@ contextBridge.exposeInMainWorld("api", {
   readConfig: () => ipcRenderer.invoke("read-config"),
   writeConfig: (content) => ipcRenderer.invoke("write-config", content),
   doesDirExist: (path) => ipcRenderer.invoke("does-dir-exist", path),
+  saveAudioFromURL: (path, URL) => ipcRenderer.invoke("save-audio-from-URL", path, URL)
 });

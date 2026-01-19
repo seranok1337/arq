@@ -74,7 +74,17 @@ function useApp() {
     }
   };
 
-  return { readConfig, configInit, getSongList, writeConfig, doesDirExist };
+  const saveAudioFromURL = async (path, url) => {
+    try {
+      const res = await window.api.saveAudioFromURL(path, url)
+
+      return res;
+    } catch (error) {
+      return error
+    }
+  };
+
+  return { readConfig, configInit, getSongList, writeConfig, doesDirExist, saveAudioFromURL };
 }
 
 export { useApp };

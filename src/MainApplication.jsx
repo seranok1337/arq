@@ -3,10 +3,11 @@ import { useState } from "react";
 import MainPage from "./components/pages/MainPage";
 import SettingsPage from "./components/pages/SettingsPage";
 import TabBar from "./components/TabBar";
-import { HomeIcon, Settings } from "lucide-react";
+import { DownloadCloud, HomeIcon, Settings } from "lucide-react";
 import MusicPlayer from "./components/MusicPlayer";
 import { useCurrentSongStore } from "./stores/useCurrentSongStore";
 import SlideUp from "./components/animations/SlideUp";
+import DownloaderPage from "./components/pages/DownloaderPage";
 
 export default function MainApplication() {
   const [currentTabId, setCurrentTabId] = useState(0);
@@ -23,6 +24,11 @@ export default function MainApplication() {
       icon: <Settings width={18} height={18} />,
       page: <SettingsPage />,
     },
+    {
+      title: "Downloader",
+      icon: <DownloadCloud width={18} height={18} />,
+      page: <DownloaderPage />
+    }
   ];
 
   return (
