@@ -2,14 +2,16 @@ import { create } from "zustand";
 
 const useAppStore = create((set) => ({
   path: "",
-  setPath: (newPath) =>
+  setPath: (path) =>
     set({
-      path: newPath,
+      path,
     }),
   songList: [],
-  setSongList: (newSongList) => set({ songList: newSongList }),
+  setSongList: (songList) => set({ songList }),
   config: {},
   setConfig: (config) => set({ config }),
+  isDownloading: false,
+  setIsDownloading: (isDownloading) => set({ isDownloading }),
 }));
 
 export { useAppStore };

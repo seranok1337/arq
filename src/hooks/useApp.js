@@ -80,7 +80,7 @@ function useApp() {
 
       return res;
     } catch (error) {
-      return error
+      throw error
     }
   };
 
