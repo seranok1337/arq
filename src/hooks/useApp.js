@@ -18,8 +18,7 @@ function useApp() {
       setConfig(config);
       setPath(config.path);
     } catch (error) {
-      console.error(error);
-      toast.error(error);
+      throw error
     }
   };
 
@@ -36,8 +35,7 @@ function useApp() {
         toast("This directory does not exist!");
       }
     } catch (error) {
-      console.error(error);
-      toast.error(error);
+      throw error
     }
   };
 

@@ -29,9 +29,11 @@ export default function SettingsPage() {
   return (
     <div className="p-4 text-white flex flex-col">
       <h1 className="text-5xl">Settings</h1>
-      <div className="space-x-5">
+      <div className="space-x-5 mt-5">
+        <h1 className="text-2xl">Music Folder Path</h1>
         <input
           type="text"
+          placeholder="Music Folder Path"
           className="outline-none"
           value={musicFolderPath}
           onChange={(e) => setMusicFolderPath(e.target.value)}
