@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  background: #27272a;
   overflow: hidden;
   overflow-y: scroll;
   scrollbar-width: none; /* firefox */
